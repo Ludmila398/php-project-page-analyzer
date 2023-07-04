@@ -4,7 +4,7 @@ PORT ?= 8000
 #  PHP_CLI_SERVER_WORKERS=5 php -S 0.0.0.0:$(PORT) -t public
 
 start:
-	php -S localhost:8000 -t public
+	php -S 0.0.0.0:8000 -t public
 install:
 	composer install
 
