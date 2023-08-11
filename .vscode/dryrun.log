@@ -2,6 +2,7 @@ make.exe --dry-run --always-make --keep-going --print-directory
 "\\wsl.localhost\Ubuntu\home\gubanova_ubuntu\HEXLET\php-project-9"
 �������� ���� �� �ᯮ�짮��� �� ����᪥ CMD.EXE � ����⢥ ⥪�饩 �����.
 CMD.EXE �� �����ন���� ��� UNC. �� 㬮�砭�� ��࠭� ��⥬��� ����� Windows.
+
 "make.exe" �� ���� ����७��� ��� ���譥�
 ��������, �ᯮ��塞�� �ணࠬ��� ��� ������ 䠩���.
 
