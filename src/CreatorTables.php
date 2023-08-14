@@ -1,6 +1,6 @@
 <?php
 
-namespace Hexlet\Code;
+namespace App;
 
 /**
  * Создание в PostgreSQL таблицы из демонстрации PHP
