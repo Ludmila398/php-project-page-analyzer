@@ -42,7 +42,7 @@ $app->get('/router', function ($request, $response) use ($router) {
     $router->urlFor('/');
     $router->urlFor('urlsId', ['id' => '']);
     $router->urlFor('urls');
-    return $this->get('renderer')->render($response, 'main.phtml');  
+    return $this->get('renderer')->render($response, 'main.phtml');
 });
 
 $app->get('/createTables', function ($request, $response) {
