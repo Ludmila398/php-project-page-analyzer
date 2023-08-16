@@ -20,8 +20,6 @@ session_start();
 
 $container = new Container();
 $container->set('renderer', function () {
-    // Параметром передается базовая директория, в которой будут храниться шаблоны
-    //https://ru.hexlet.io/courses/php-mvc/lessons/template/theory_unit
     return new \Slim\Views\PhpRenderer(__DIR__ . '/../templates');
 });
 
@@ -33,7 +31,7 @@ $container->set('connection', function () {
     $pdo = Connection::get()->connect();     //Connection
     return $pdo;
 });
-
+//
 $app = AppFactory::createFromContainer($container);
 $app->add(MethodOverrideMiddleware::class); //удалить ???
 $app->addErrorMiddleware(true, true, true);
@@ -44,7 +42,7 @@ $app->get('/router', function ($request, $response) use ($router) {
     $router->urlFor('/');
     $router->urlFor('urlsId', ['id' => '']);
     $router->urlFor('urls');
-    return $this->get('renderer')->render($response, 'main.phtml');  /// вместо 'index.phtml' у меня 'main.phtml'
+    return $this->get('renderer')->render($response, 'main.phtml');  
 });
 
 $app->get('/createTables', function ($request, $response) {
