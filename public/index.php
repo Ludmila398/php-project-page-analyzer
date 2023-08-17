@@ -28,12 +28,12 @@ $container->set('flash', function () {
 });
 
 $container->set('connection', function () {
-    $pdo = Connection::get()->connect();  
+    $pdo = Connection::get()->connect();
     return $pdo;
 });
 
 $app = AppFactory::createFromContainer($container);
-$app->add(MethodOverrideMiddleware::class); 
+$app->add(MethodOverrideMiddleware::class);
 $app->addErrorMiddleware(true, true, true);
 
 $router = $app->getRouteCollector()->getRouteParser();
