@@ -2,29 +2,16 @@
 
 namespace App;
 
-/**
- * Создание в PostgreSQL таблицы из демонстрации PHP
- */
-class CreatorTables
+class CreationTables
 {
-    /**
-     * объект PDO
-     * @var \PDO
-     */
+
     private $pdo;
 
-    /**
-     * инициализация объекта с объектом \PDO
-     * @тип параметра $pdo
-     */
     public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
-    /**
-     * создание таблиц
-     */
     public function createTables()
     {
         $sql = 'CREATE TABLE IF NOT EXISTS urls (

@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use App\Connection;
-use App\CreatorTables;
+use App\CreationTables;
 use App\PgsqlActions;
 use Slim\Factory\AppFactory;
 use Slim\Flash\Messages;
@@ -28,12 +28,12 @@ $container->set('flash', function () {
 });
 
 $container->set('connection', function () {
-    $pdo = Connection::get()->connect();     //Connection
+    $pdo = Connection::get()->connect();  
     return $pdo;
 });
-//
+
 $app = AppFactory::createFromContainer($container);
-$app->add(MethodOverrideMiddleware::class); //удалить ???
+$app->add(MethodOverrideMiddleware::class); 
 $app->addErrorMiddleware(true, true, true);
 
 $router = $app->getRouteCollector()->getRouteParser();
@@ -46,7 +46,7 @@ $app->get('/router', function ($request, $response) use ($router) {
 });
 
 $app->get('/createTables', function ($request, $response) {
-    $tableCreator = new CreatorTables($this->get('connection'));
+    $tableCreator = new CreationTables($this->get('connection')); //
     $tables = $tableCreator->createTables();
     $tablesCheck = $tableCreator->createTableWithChecks();
     return $response;
@@ -72,35 +72,35 @@ $app->get('/urls/{id}', function ($request, $response, $args) {
                 'urls' => $dataCheckUrl];
     return $this->get('renderer')->render($response, 'show.phtml', $params);
 })->setName('urlsId');
-
+//
 $app->post('/urls', function ($request, $response) use ($router) {
     $urls = $request->getParsedBodyParam('url');
     $dataBase = new PgsqlActions($this->get('connection'));
     $error = [];
 
     try {
-        $tableCreator = new CreatorTables($this->get('connection'));
+        $tableCreator = new CreationTables($this->get('connection'));
         $tables = $tableCreator->createTables();
         $tablesCheck = $tableCreator->createTableWithChecks();
     } catch (\PDOException $e) {
         echo $e->getMessage();
     }
-//
+
     $v = new Validator(array('name' => $urls['name'], 'count' => strlen((string) $urls['name'])));
     $v->rule('required', 'name')->rule('lengthMax', 'count.*', 255)->rule('url', 'name');
     if ($v->validate()) {
         $parseUrl = parse_url($urls['name']);
         $urls['name'] = $parseUrl['scheme'] . '://' . $parseUrl['host'];
 
-        $serachName = $dataBase->query('SELECT id FROM urls WHERE name = :name', $urls);
+        $searchName = $dataBase->query('SELECT id FROM urls WHERE name = :name', $urls);
 
-        if (count($serachName) !== 0) {
-            $url = $router->urlFor('urlsId', ['id' => $serachName[0]['id']]);
+        if (count($searchName) !== 0) {
+            $url = $router->urlFor('urlsId', ['id' => $searchName[0]['id']]);
             $this->get('flash')->addMessage('success', 'Страница уже существует');
             return $response->withRedirect($url);
         }
         $urls['time'] = Carbon::now();
-        $isertInTable = $dataBase->query('INSERT INTO urls(name, created_at) VALUES(:name, :time) RETURNING id', $urls);
+        $insertIntoTable = $dataBase->query('INSERT INTO urls(name, created_at) VALUES(:name, :time) RETURNING id', $urls);
 
         $id = $dataBase->query('SELECT MAX(id) FROM urls');
 
@@ -118,7 +118,7 @@ $app->post('/urls', function ($request, $response) use ($router) {
     $params = ['errors' => $error];
     return $this->get('renderer')->render($response->withStatus(422), 'main.phtml', $params);
 });
-
+//
 $app->get('/urls', function ($request, $response) {
     $dataBase = new PgsqlActions($this->get('connection'));
     $dataFromDB = $dataBase->query(
@@ -131,7 +131,7 @@ $app->get('/urls', function ($request, $response) {
     $params = ['data' => $dataFromDB];
     return $this->get('renderer')->render($response, 'list.phtml', $params);
 })->setName('urls');
-
+//
 $app->post('/urls/{url_id}/checks', function ($request, $response, $args) use ($router) {
     $url_id = $args['url_id'];
     $pdo = Connection::get()->connect();

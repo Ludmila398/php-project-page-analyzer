@@ -17,7 +17,7 @@ final class Connection
             $params['port'] = isset($databaseUrl['port']) ? $databaseUrl['port'] : null;
             $params['database'] = isset($databaseUrl['path']) ? ltrim($databaseUrl['path'], '/') : null;
             $params['user'] = isset($databaseUrl['user']) ? $databaseUrl['user'] : null;
-            $params['password'] = isset($databaseUrl['pass']) ? $databaseUrl['pass'] : null;
+            $params['passw'] = isset($databaseUrl['pass']) ? $databaseUrl['pass'] : null;
         } else {
             $params = parse_ini_file('database.ini');
         }
@@ -31,7 +31,7 @@ final class Connection
             $params['port'],
             $params['database'],
             $params['user'],
-            $params['password']
+            $params['passw']
         );
     
         $pdo = new \PDO($conStr);
