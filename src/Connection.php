@@ -33,12 +33,11 @@ final class Connection
             $params['user'],
             $params['passw']
         );
-    
+
         $pdo = new \PDO($conStr);
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
- 
-        return $pdo;
 
+        return $pdo;
     }
 
     public static function get()

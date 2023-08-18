@@ -4,7 +4,6 @@ namespace App;
 
 class CreationTables
 {
-
     private $pdo;
 
     public function __construct(\PDO $pdo)

@@ -4,7 +4,6 @@ namespace App;
 
 class PgsqlActions
 {
-
     private $pdo;
 
     public function __construct(\PDO $pdo)
@@ -14,7 +13,6 @@ class PgsqlActions
 
     public function query(string $sql, array $params = [])
     {
-    
         $stmt = $this->pdo->prepare($sql);
 
         if (!empty($params)) {
