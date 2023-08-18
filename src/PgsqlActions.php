@@ -4,6 +4,10 @@ namespace App;
 
 class PgsqlActions
 {
+    /**
+     * объект PDO
+     * @var \PDO
+     */
     private $pdo;
 
     public function __construct(\PDO $pdo)

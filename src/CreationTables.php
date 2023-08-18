@@ -4,8 +4,15 @@ namespace App;
 
 class CreationTables
 {
+    /**
+     * объект PDO
+     * @var \PDO
+     */
     private $pdo;
-
+    /**
+     * инициализация объекта с объектом \PDO
+     * @тип параметра $pdo
+     */
     public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
