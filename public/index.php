@@ -72,7 +72,7 @@ $app->get('/urls/{id}', function ($request, $response, $args) {
                 'urls' => $dataCheckUrl];
     return $this->get('renderer')->render($response, 'show.phtml', $params);
 })->setName('urlsId');
-//
+
 $app->post('/urls', function ($request, $response) use ($router) {
     $urls = $request->getParsedBodyParam('url');
     $dataBase = new PgsqlActions($this->get('connection'));
@@ -118,7 +118,7 @@ $app->post('/urls', function ($request, $response) use ($router) {
     $params = ['errors' => $error];
     return $this->get('renderer')->render($response->withStatus(422), 'main.phtml', $params);
 });
-//
+
 $app->get('/urls', function ($request, $response) {
     $dataBase = new PgsqlActions($this->get('connection'));
     $dataFromDB = $dataBase->query(
@@ -131,8 +131,7 @@ $app->get('/urls', function ($request, $response) {
     $params = ['data' => $dataFromDB];
     return $this->get('renderer')->render($response, 'list.phtml', $params);
 })->setName('urls');
-//
-//
+
 $app->post('/urls/{url_id}/checks', function ($request, $response, $args) use ($router) {
     $url_id = $args['url_id'];
     $pdo = Connection::get()->connect();
