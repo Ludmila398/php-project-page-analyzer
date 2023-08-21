@@ -2,7 +2,7 @@
 
 namespace App;
 
-class CreationTables
+class TablesCreator
 {
     /**
      * объект PDO

@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use App\Connection;
-use App\CreationTables;
+use App\TablesCreator;
 use App\PgsqlActions;
 use Slim\Factory\AppFactory;
 use Slim\Flash\Messages;
@@ -46,7 +46,7 @@ $app->get('/router', function ($request, $response) use ($router) {
 });
 
 $app->get('/createTables', function ($request, $response) {
-    $tableCreator = new CreationTables($this->get('connection')); //
+    $tableCreator = new TablesCreator($this->get('connection')); //
     $tables = $tableCreator->createTables();
     $tablesCheck = $tableCreator->createTableWithChecks();
     return $response;
@@ -81,7 +81,7 @@ $app->post('/urls', function ($request, $response) use ($router) {
     $error = [];
 
     try {
-        $tableCreator = new CreationTables($this->get('connection'));
+        $tableCreator = new TablesCreator($this->get('connection'));
         $tables = $tableCreator->createTables();
         $tablesCheck = $tableCreator->createTableWithChecks();
     } catch (\PDOException $e) {
