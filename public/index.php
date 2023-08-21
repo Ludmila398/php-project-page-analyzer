@@ -65,11 +65,13 @@ $app->get('/urls/{id}', function ($request, $response, $args) {
     $dataFromDB = $dataBase->query('SELECT * FROM urls WHERE id = :id', $args);
     $dataCheckUrl = $dataBase->query('SELECT * FROM urls_checks WHERE url_id = :id ORDER BY id DESC', $args);
 
-    $params = ['id' => $dataFromDB[0]['id'],
+    $params = [
+                'id' => $dataFromDB[0]['id'],
                 'name' => $dataFromDB[0]['name'],
                 'created_at' => $dataFromDB[0]['created_at'],
                 'flash' => $messages,
-                'urls' => $dataCheckUrl];
+                'urls' => $dataCheckUrl
+                ];
     return $this->get('renderer')->render($response, 'show.phtml', $params);
 })->setName('urlsId');
 
@@ -109,7 +111,7 @@ $app->post('/urls', function ($request, $response) use ($router) {
 
         return $response->withRedirect($url);
     } else {
-        if (isset($urls) and strlen($urls['name']) < 1) {
+        if (isset($urls) && strlen($urls['name']) < 1) {
             $error['name'] = 'URL не должен быть пустым';
         } elseif (isset($urls)) {
             $error['name'] = 'Некорректный URL';
