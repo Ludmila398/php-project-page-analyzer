@@ -164,10 +164,9 @@ $app->post('/urls/{url_id}/checks', function ($request, $response, $args) use ($
             return $response->withRedirect($url);
         }
     }
+//
+   // $document = new Document($name[0]['name'], true);
 
-    $document = new Document($name[0]['name'], true);
-
-    /*обход ошибки 403
     $options = [
         'http' => [
             'method' => "GET",
@@ -177,13 +176,17 @@ $app->post('/urls/{url_id}/checks', function ($request, $response, $args) use ($
     ];
     $context = stream_context_create($options);
     $file = file_get_contents($name[0]['name'], false, $context);
-
+    $dom = new DOMDocument();
+    @$dom->loadHTML($file);
+    $document = new Document($dom);
+    /*
     try {
         $document = new Document($name[0]['name'], true);
     } catch (Exception $e) {
         $document = new Document($file);
     }
-    обход ошибки 403*/
+    */
+//
 
     $title = optional($document->first('title'));
     $h1 = optional($document->first('h1'));
