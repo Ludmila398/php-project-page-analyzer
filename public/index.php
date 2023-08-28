@@ -175,7 +175,8 @@ $app->post('/urls/{url_id}/checks', function ($request, $response, $args) use ($
         ]
     ];
     $context = stream_context_create($options);
-    $file = file_get_contents($name[0]['name'], false, $context);
+    $urlForFile = $name[0]['name'];
+    $file = file_get_contents($urlForFile, false, $context);
     $dom = new DOMDocument();
     @$dom->loadHTML($file);
     $document = new Document($dom);
