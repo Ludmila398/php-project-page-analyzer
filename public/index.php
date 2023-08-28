@@ -179,13 +179,7 @@ $app->post('/urls/{url_id}/checks', function ($request, $response, $args) use ($
     $dom = new DOMDocument();
     @$dom->loadHTML($file);
     $document = new Document($dom);
-    /*
-    try {
-        $document = new Document($name[0]['name'], true);
-    } catch (Exception $e) {
-        $document = new Document($file);
-    }
-    */
+  
 //
 
     $title = optional($document->first('title'));
