@@ -165,7 +165,26 @@ $app->post('/urls/{url_id}/checks', function ($request, $response, $args) use ($
         }
     }
 
-    $document = new Document($name[0]['name'], true);
+    //$document = new Document($name[0]['name'], true);
+
+    //обход ошибки 403
+    $options = [
+        'http' => [
+            'method' => "GET",
+            'header' => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) 
+            AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537\n"
+        ]
+    ];
+    $context = stream_context_create($options);
+    $file = file_get_contents($name[0]['name'], false, $context);
+
+    try {
+        $document = new Document($name[0]['name'], true);
+    } catch (Exception $e) {
+        $document = new Document($file);
+    }
+    // обход ошибки 403
+
     $title = optional($document->first('title'));
     $h1 = optional($document->first('h1'));
     $meta = optional($document->first('meta[name="description"]'));
