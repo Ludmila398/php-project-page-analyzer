@@ -164,24 +164,10 @@ $app->post('/urls/{url_id}/checks', function ($request, $response, $args) use ($
             return $response->withRedirect($url);
         }
     }
-//
-   // $document = new Document($name[0]['name'], true);
 
-    $options = [
-        'http' => [
-            'method' => "GET",
-            'header' => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
-            AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537\n"
-        ]
-    ];
-    $context = stream_context_create($options);
-    $urlForFile = $name[0]['name'];
-    $file = file_get_contents($urlForFile, false, $context);
-    $dom = new DOMDocument();
-    @$dom->loadHTML($file);
-    $document = new Document($dom);
-  
-//
+
+    $htmlFromUrl = (string) $res->getBody();
+    $document = new Document($htmlFromUrl);
 
     $title = optional($document->first('title'));
     $h1 = optional($document->first('h1'));
