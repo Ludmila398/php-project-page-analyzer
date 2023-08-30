@@ -142,8 +142,8 @@ $app->post('/urls/{url_id}/checks', function ($request, $response, $args) use ($
     $checkUrl['url_id'] = $args['url_id'];
     $name = $dataBase->query('SELECT name FROM urls WHERE id = :url_id', $checkUrl);
 
+    $client = new Client();
     try {
-        $client = new Client();
         $res = $client->request('GET', $name[0]['name']);
         $checkUrl['status'] = $res->getStatusCode();
     } catch (ConnectException $e) {
@@ -165,8 +165,8 @@ $app->post('/urls/{url_id}/checks', function ($request, $response, $args) use ($
         }
     }
 
-
-    $htmlFromUrl = (string) $res->getBody();
+    $resultFromBody = $client->request('GET', $name[0]['name']);
+    $htmlFromUrl = (string) $resultFromBody->getBody();
     $document = new Document($htmlFromUrl);
 
     $title = optional($document->first('title'));
