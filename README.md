@@ -25,7 +25,7 @@ Install the app
 ```
 make install
 ```
-Create a new database and import the database.sql file into the newly created database.
+Create a new database and import the database.sql file into the newly created database
 
 Run the web server
 ```
