@@ -53,8 +53,8 @@ $app->get('/createTables', function ($request, $response) {
 });
 
 $app->get('/', function ($request, $response) {
-    $params = ['greeting' => 'Hello'];
-    return $this->get('renderer')->render($response, 'main.phtml', $params);
+   // $params = ['greeting' => 'Hello'];
+    return $this->get('renderer')->render($response, 'main.phtml'); //$params
 })->setName('/');
 
 $app->get('/urls/{id}', function ($request, $response, $args) {
