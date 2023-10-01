@@ -38,15 +38,15 @@ $app->addErrorMiddleware(true, true, true);
 
 $router = $app->getRouteCollector()->getRouteParser();
 
-$app->get('/router', function ($request, $response) use ($router) {
+/*$app->get('/router', function ($request, $response) use ($router) {
     $router->urlFor('/');
     $router->urlFor('urlsId', ['id' => '']);
     $router->urlFor('urls');
     return $this->get('renderer')->render($response, 'main.phtml');
-});
+});*/
 
 $app->get('/createTables', function ($request, $response) {
-    $tableCreator = new TablesCreator($this->get('connection')); //
+    $tableCreator = new TablesCreator($this->get('connection'));
     $tables = $tableCreator->createTables();
     $tablesCheck = $tableCreator->createTableWithChecks();
     return $response;
