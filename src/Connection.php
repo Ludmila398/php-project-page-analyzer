@@ -25,7 +25,7 @@ final class Connection
             throw new \Exception("Error reading database configuration file");
         }
 
-        $conStr = sprintf(
+        $connectionSettings = sprintf(
             "pgsql:host=%s;port=%d;dbname=%s;user=%s;password=%s",
             $params['host'],
             $params['port'],
@@ -34,13 +34,13 @@ final class Connection
             $params['passw']
         );
 
-        $pdo = new \PDO($conStr);
+        $pdo = new \PDO($connectionSettings);
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         return $pdo;
     }
 
-    public static function get()
+    public static function get(): self
     {
         if (null === static::$conn) {
             static::$conn = new self();
