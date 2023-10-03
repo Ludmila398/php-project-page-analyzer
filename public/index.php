@@ -45,12 +45,12 @@ $router = $app->getRouteCollector()->getRouteParser();
     return $this->get('renderer')->render($response, 'main.phtml');
 });*/
 
-$app->get('/createTables', function ($request, $response) {
+/*$app->get('/createTables', function ($request, $response) {
     $tableCreator = new TablesCreator($this->get('connection'));
     $tables = $tableCreator->createTables();
     $tablesCheck = $tableCreator->createTableWithChecks();
     return $response;
-});
+});*/
 
 $app->get('/', function ($request, $response) {
    // $params = ['greeting' => 'Hello'];
@@ -80,13 +80,14 @@ $app->post('/urls', function ($request, $response) use ($router) {
     $dataBase = new PgsqlActions($this->get('connection'));
     $error = [];
 
+    /*
     try {
         $tableCreator = new TablesCreator($this->get('connection'));
         $tables = $tableCreator->createTables();
         $tablesCheck = $tableCreator->createTableWithChecks();
     } catch (\PDOException $e) {
         echo $e->getMessage();
-    }
+    }*/
 
     $v = new Validator(array('name' => $urls['name'], 'count' => strlen((string) $urls['name'])));
     $v->rule('required', 'name')->rule('lengthMax', 'count.*', 255)->rule('url', 'name');

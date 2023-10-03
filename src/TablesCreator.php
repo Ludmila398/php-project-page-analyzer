@@ -1,19 +1,19 @@
 <?php
 
 namespace App;
-
+/*
 class TablesCreator
 {
     /**
      * объект PDO
      * @var \PDO
      */
-    private $pdo;
+    //private $pdo;
     /**
      * инициализация объекта с объектом \PDO
      * @тип параметра $pdo
      */
-    public function __construct(\PDO $pdo)
+    /*public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
     }
@@ -48,3 +48,4 @@ class TablesCreator
         return $this;
     }
 }
+*/
