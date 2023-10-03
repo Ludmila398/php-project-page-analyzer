@@ -9,7 +9,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use App\Connection;
-use App\TablesCreator;
 use App\PgsqlActions;
 use Slim\Factory\AppFactory;
 use Slim\Flash\Messages;
@@ -38,23 +37,8 @@ $app->addErrorMiddleware(true, true, true);
 
 $router = $app->getRouteCollector()->getRouteParser();
 
-/*$app->get('/router', function ($request, $response) use ($router) {
-    $router->urlFor('/');
-    $router->urlFor('urlsId', ['id' => '']);
-    $router->urlFor('urls');
-    return $this->get('renderer')->render($response, 'main.phtml');
-});*/
-
-/*$app->get('/createTables', function ($request, $response) {
-    $tableCreator = new TablesCreator($this->get('connection'));
-    $tables = $tableCreator->createTables();
-    $tablesCheck = $tableCreator->createTableWithChecks();
-    return $response;
-});*/
-
 $app->get('/', function ($request, $response) {
-   // $params = ['greeting' => 'Hello'];
-    return $this->get('renderer')->render($response, 'main.phtml'); //$params
+    return $this->get('renderer')->render($response, 'main.phtml');
 })->setName('/');
 
 $app->get('/urls/{id}', function ($request, $response, $args) {
@@ -80,18 +64,9 @@ $app->post('/urls', function ($request, $response) use ($router) {
     $dataBase = new PgsqlActions($this->get('connection'));
     $error = [];
 
-    if (strlen($urls['name']) < 1) { ///(isset($urls) && strlen($urls['name']) < 1)
+    if (strlen($urls['name']) < 1) {
         $error['name'] = 'URL не должен быть пустым';
     }
-
-    /*
-    try {
-        $tableCreator = new TablesCreator($this->get('connection'));
-        $tables = $tableCreator->createTables();
-        $tablesCheck = $tableCreator->createTableWithChecks();
-    } catch (\PDOException $e) {
-        echo $e->getMessage();
-    }*/
 
     $v = new Validator(array('name' => $urls['name'], 'count' => strlen((string) $urls['name'])));
     $v->rule('required', 'name')->rule('lengthMax', 'count.*', 255)->rule('url', 'name');
@@ -102,7 +77,6 @@ $app->post('/urls', function ($request, $response) use ($router) {
 
     if (count($error) === 0) {
         $parseUrl = parse_url($urls['name']);
-        //$urls['name'] = $parseUrl['scheme'] . '://' . $parseUrl['host'];
         $urls['name'] = "{$parseUrl['scheme']}://{$parseUrl['host']}";
 
         $searchName = $dataBase->query('SELECT id FROM urls WHERE name = :name', $urls);
@@ -118,12 +92,6 @@ $app->post('/urls', function ($request, $response) use ($router) {
         $url = $router->urlFor('urlsId', ['id' => $id[0]['max']]);
         $this->get('flash')->addMessage('success', 'Страница успешно добавлена');
         return $response->withRedirect($url);
-     /*else {
-       // if (isset($urls) && strlen($urls['name']) < 1) {
-       //     $error['name'] = 'URL не должен быть пустым';
-        } elseif (isset($urls)) {
-            $error['name'] = 'Некорректный URL';
-        }*/
     } else {
         $params = ['errors' => $error];
         return $this->get('renderer')->render($response->withStatus(422), 'main.phtml', $params);
@@ -182,18 +150,17 @@ $app->post('/urls/{url_id}/checks', function ($request, $response, $args) use ($
     $h1 = optional($document->first('h1'));
     $meta = optional($document->first('meta[name="description"]'));
 
-    if ($title?->text()) {
-        $title = mb_substr($title->text(), 0, 255);
-        $checkUrl['title'] = $title;
-    } else {
-        $checkUrl['title'] = '';
-    }
+    $elements = [
+        'title' => $title,
+        'h1' => $h1
+    ];
 
-    if ($h1?->text()) {
-        $h1 = mb_substr($h1->text(), 0, 255);
-        $checkUrl['h1'] = $h1;
-    } else {
-        $checkUrl['h1'] = '';
+    foreach ($elements as $key => $element) {
+        if ($element?->text()) {
+            $checkUrl[$key] = mb_substr($element->text(), 0, 255);
+        } else {
+            $checkUrl[$key] = '';
+        }
     }
 
     if ($meta?->getAttribute('content')) {
