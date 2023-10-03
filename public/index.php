@@ -80,6 +80,10 @@ $app->post('/urls', function ($request, $response) use ($router) {
     $dataBase = new PgsqlActions($this->get('connection'));
     $error = [];
 
+    if (strlen($urls['name']) < 1) { ///(isset($urls) && strlen($urls['name']) < 1)
+        $error['name'] = 'URL не должен быть пустым';
+    }
+
     /*
     try {
         $tableCreator = new TablesCreator($this->get('connection'));
@@ -91,9 +95,15 @@ $app->post('/urls', function ($request, $response) use ($router) {
 
     $v = new Validator(array('name' => $urls['name'], 'count' => strlen((string) $urls['name'])));
     $v->rule('required', 'name')->rule('lengthMax', 'count.*', 255)->rule('url', 'name');
-    if ($v->validate()) {
+
+    if (!$v->validate() && isset($urls) && !isset($error['name'])) {
+        $error['name'] = 'Некорректный URL';
+    }
+
+    if (count($error) === 0) {
         $parseUrl = parse_url($urls['name']);
-        $urls['name'] = $parseUrl['scheme'] . '://' . $parseUrl['host'];
+        //$urls['name'] = $parseUrl['scheme'] . '://' . $parseUrl['host'];
+        $urls['name'] = "{$parseUrl['scheme']}://{$parseUrl['host']}";
 
         $searchName = $dataBase->query('SELECT id FROM urls WHERE name = :name', $urls);
 
@@ -103,23 +113,21 @@ $app->post('/urls', function ($request, $response) use ($router) {
             return $response->withRedirect($url);
         }
         $urls['time'] = Carbon::now();
-        $insrtInTable = $dataBase->query('INSERT INTO urls(name, created_at) VALUES(:name, :time) RETURNING id', $urls);
-
+        $insertedId = $dataBase->query('INSERT INTO urls(name, created_at) VALUES(:name, :time) RETURNING id', $urls);
         $id = $dataBase->query('SELECT MAX(id) FROM urls');
-
         $url = $router->urlFor('urlsId', ['id' => $id[0]['max']]);
         $this->get('flash')->addMessage('success', 'Страница успешно добавлена');
-
         return $response->withRedirect($url);
-    } else {
-        if (isset($urls) && strlen($urls['name']) < 1) {
-            $error['name'] = 'URL не должен быть пустым';
+     /*else {
+       // if (isset($urls) && strlen($urls['name']) < 1) {
+       //     $error['name'] = 'URL не должен быть пустым';
         } elseif (isset($urls)) {
             $error['name'] = 'Некорректный URL';
-        }
+        }*/
+    } else {
+        $params = ['errors' => $error];
+        return $this->get('renderer')->render($response->withStatus(422), 'main.phtml', $params);
     }
-    $params = ['errors' => $error];
-    return $this->get('renderer')->render($response->withStatus(422), 'main.phtml', $params);
 });
 
 $app->get('/urls', function ($request, $response) {
