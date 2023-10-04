@@ -100,14 +100,25 @@ $app->post('/urls', function ($request, $response) use ($router) {
 
 $app->get('/urls', function ($request, $response) {
     $dataBase = new PgsqlActions($this->get('connection'));
-    $dataFromDB = $dataBase->query(
-        'SELECT MAX(urls_checks.created_at) AS created_at, urls_checks.status_code, urls.id, urls.name 
-        FROM urls 
-        LEFT OUTER JOIN urls_checks ON urls_checks.url_id = urls.id 
-        GROUP BY urls_checks.url_id, urls.id, urls_checks.status_code 
-        ORDER BY urls.id DESC'
+    $dataFromUrls = $dataBase->query(
+        'SELECT urls.id, urls.name FROM urls ORDER BY urls.id DESC'
     );
-    $params = ['data' => $dataFromDB];
+    $dataFromUrlsChecks = $dataBase->query(
+        'SELECT url_id, MAX(created_at) AS created_at, status_code 
+         FROM urls_checks 
+         GROUP BY url_id, status_code'
+    );
+    $combinedData = array_map(function ($url) use ($dataFromUrlsChecks) {
+        foreach ($dataFromUrlsChecks as $check) {
+            if ($url['id'] === $check['url_id']) {
+                $url['created_at'] = $check['created_at'];
+                $url['status_code'] = $check['status_code'];
+            }
+        }
+        return $url;
+    }, $dataFromUrls);
+
+    $params = ['data' => $combinedData];
     return $this->get('renderer')->render($response, 'list.phtml', $params);
 })->setName('urls');
 
