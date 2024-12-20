@@ -33,4 +33,3 @@ make start
 ```
 Open your browser and navigate to http://localhost:8000 to view the pages
 
---
