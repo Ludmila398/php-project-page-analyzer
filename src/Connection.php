@@ -14,7 +14,7 @@ final class Connection
 
         if (isset($databaseUrl['host'])) {
             $params['host'] = $databaseUrl['host'];
-            $params['port'] = isset($databaseUrl['port']) ? $databaseUrl['port'] : 5432; //поменяла с null
+            $params['port'] = isset($databaseUrl['port']) ? $databaseUrl['port'] : 5432;
             $params['database'] = isset($databaseUrl['path']) ? ltrim($databaseUrl['path'], '/') : null;
             $params['user'] = isset($databaseUrl['user']) ? $databaseUrl['user'] : null;
             $params['passw'] = isset($databaseUrl['pass']) ? $databaseUrl['pass'] : null;

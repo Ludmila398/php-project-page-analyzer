@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <title>Анализатор страниц</title>
+    <title>Page Analyzer</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header class="flex-shrink-0">
         <nav class="navbar navbar-expend-lg navbar-dark bg-dark">
             <div class="container-fluid d-flex justify-content-start px-2">
-              <a href="/" class="navbar-brand text-light">Анализатор страниц</a>
-              <a href="/" class="text-white-50 nav-link p-2">Главная</a>
-              <a href="/urls" class="text-white-50 nav-link p-2 ">Сайты</a>
+              <a href="/" class="navbar-brand text-light">Page Analyzer</a>
+              <a href="/" class="text-white-50 nav-link p-2">Home</a>
+              <a href="/urls" class="text-white-50 nav-link p-2 ">Websites</a>
             </div>
         </nav>
     </header>
@@ -25,7 +25,7 @@
             <div class="alert alert-warning" role="alert"><?= htmlspecialchars($flash['warning'][0]) ?></div>
         <?php endif ?>
     <main class="container mt-3">
-        <p class="h1">Сайт: <?= htmlspecialchars($name) ?></p>
+        <p class="h1">Website: <?= htmlspecialchars($name) ?></p>
         <table class="table table-hover table-bordered" data-test="url">
           <tbody>
               <tr>
@@ -33,28 +33,28 @@
                   <td><?= htmlspecialchars($id) ?></td>
               </tr>
               <tr>
-                  <th class="col-4">Имя</th>
+                  <th class="col-4">Name</th>
                   <td><?= htmlspecialchars($name) ?></td>
               </tr>
               <tr>
-                  <th class="col-4">Дата создания</th>
+                  <th class="col-4">Created at</th>
                   <td><?= htmlspecialchars($created_at) ?></td>
               </tr>
           </tbody>
         </table>
 
-        <h2 class="mt-5 mb-3">Проверки</h2>
+        <h2 class="mt-5 mb-3">Checks</h2>
         <form action="/urls/<?= htmlspecialchars($id) ?>/checks" class="mb-3" method="post">
-            <input type="submit" class="btn btn-primary" value="Запустить проверку">
+            <input type="submit" class="btn btn-primary" value="Run Check">
         </form>
         <table class="table table-hover table-bordered" data-test="checks">
             <tr>
                 <th>ID</th>
-                <th>Код ответа</th>
+                <th>Status code</th>
                 <th>h1</th>
                 <th>title</th>
-                <th>description</th>
-                <th>Дата создания</th>
+                <th>Description</th>
+                <th>Created at</th>
             </tr>
             <?php foreach ($urls as $item): ?>
                     <tr>

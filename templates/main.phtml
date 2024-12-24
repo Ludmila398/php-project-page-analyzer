@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Анализатор страниц</title>
+    <title>Page Analyzer</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </head>
 <body class="d-flex flex-column">
     <nav class="navbar navbar-expend-lg navbar-dark bg-dark">
       <div class="container-fluid d-flex justify-content-start px-3">
-        <a href="/" class="navbar-brand text-light">Анализатор страниц</a>
-        <a href="/" class="text-white nav-link p-2">Главная</a>
-        <a href="/urls" class="text-white-50 nav-link p-2 ">Сайты</a>
+        <a href="/" class="navbar-brand text-light">Page Analyzer</a>
+        <a href="/" class="text-white nav-link p-2">Home</a>
+        <a href="/urls" class="text-white-50 nav-link p-2 ">Websites</a>
     </div>
     </nav>
     <main class="flex-grow-1">
       <div class="container-lg bg-light col-lg-8 mt-3 p-5">
-        <h1 class="display-3">Анализатор страниц</h1>
-        <p class="lead">Бесплатно проверяйте сайты на SEO пригодность</p>
+        <h1 class="display-3">Page Analyzer</h1>
+        <p class="lead">Check websites for SEO suitability for free</p>
         <form method="post" class="row" action="/urls">
           <div class="col-8">
             <input type="text" name="url[name]" placeholder="http://example.com" class="form-control form-control-lg
@@ -28,7 +28,7 @@
             <?php endif ?>
           </div>
           <div class="col-2">
-            <input type="submit" class="btn btn-primary btn-lg text-uppercase px-5" value="Проверить">
+            <input type="submit" class="btn btn-primary btn-lg text-uppercase px-5" value="Submit">
           </div>
         </form>
       </div>

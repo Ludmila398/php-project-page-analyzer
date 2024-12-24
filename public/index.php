@@ -65,14 +65,14 @@ $app->post('/urls', function ($request, $response) use ($router) {
     $error = [];
 
     if (strlen($urls['name']) < 1) {
-        $error['name'] = 'URL не должен быть пустым';
+        $error['name'] = 'URL must not be empty';
     }
 
     $v = new Validator(array('name' => $urls['name'], 'count' => strlen((string) $urls['name'])));
     $v->rule('required', 'name')->rule('lengthMax', 'count.*', 255)->rule('url', 'name');
 
     if (!$v->validate() && isset($urls) && !isset($error['name'])) {
-        $error['name'] = 'Некорректный URL';
+        $error['name'] = 'Invalid URL';
     }
 
     if (count($error) === 0) {
@@ -83,14 +83,14 @@ $app->post('/urls', function ($request, $response) use ($router) {
 
         if (count($searchName) !== 0) {
             $url = $router->urlFor('urlsId', ['id' => $searchName[0]['id']]);
-            $this->get('flash')->addMessage('success', 'Страница уже существует');
+            $this->get('flash')->addMessage('success', 'This page already exists');
             return $response->withRedirect($url);
         }
         $urls['time'] = Carbon::now();
         $insertedId = $dataBase->query('INSERT INTO urls(name, created_at) VALUES(:name, :time) RETURNING id', $urls);
         $id = $dataBase->query('SELECT MAX(id) FROM urls');
         $url = $router->urlFor('urlsId', ['id' => $id[0]['max']]);
-        $this->get('flash')->addMessage('success', 'Страница успешно добавлена');
+        $this->get('flash')->addMessage('success', 'The page has been successfully added');
         return $response->withRedirect($url);
     } else {
         $params = ['errors' => $error];
@@ -135,19 +135,19 @@ $app->post('/urls/{url_id}/checks', function ($request, $response, $args) use ($
         $res = $client->request('GET', $name[0]['name']);
         $checkUrl['status'] = $res->getStatusCode();
     } catch (ConnectException $e) {
-        $this->get('flash')->addMessage('failure', 'Произошла ошибка при проверке, не удалось подключиться');
+        $this->get('flash')->addMessage('failure', 'An error occurred during the check, connection failed');
         $url = $router->urlFor('urlsId', ['id' => $url_id]);
         return $response->withRedirect($url);
     } catch (ClientException $e) {
         if ($e->getResponse()->getStatusCode() != 200) {
             $checkUrl['status'] = $e->getResponse()->getStatusCode();
-            $checkUrl['title'] = 'Доступ ограничен: проблема с IP';
-            $checkUrl['h1'] = 'Доступ ограничен: проблема с IP';
-            $checkUrl['meta'] = 'Доступ ограничен: проблема с IP';
+            $checkUrl['title'] = 'Access denied: IP issue';
+            $checkUrl['h1'] = 'Access denied: IP issue';
+            $checkUrl['meta'] = 'Access denied: IP issue';
             $checkUrl['time'] = Carbon::now();
             $dataBase->query('INSERT INTO urls_checks(url_id, status_code, title, h1, description, created_at) 
             VALUES(:url_id, :status, :title, :h1, :meta, :time)', $checkUrl);
-            $this->get('flash')->addMessage('warning', 'Проверка была выполнена успешно, но сервер ответил с ошибкой');
+            $this->get('flash')->addMessage('warning', 'The check was completed successfully, but the server responded with an error');
             $url = $router->urlFor('urlsId', ['id' => $url_id]);
             return $response->withRedirect($url);
         }
@@ -190,7 +190,7 @@ $app->post('/urls/{url_id}/checks', function ($request, $response, $args) use ($
         } catch (\PDOException $e) {
             echo $e->getMessage();
         }
-        $this->get('flash')->addMessage('success', 'Страница успешно проверена');
+        $this->get('flash')->addMessage('success', 'The page has been successfully checked');
     }
 
     $url = $router->urlFor('urlsId', ['id' => $url_id]);
