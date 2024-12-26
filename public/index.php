@@ -147,7 +147,10 @@ $app->post('/urls/{url_id}/checks', function ($request, $response, $args) use ($
             $checkUrl['time'] = Carbon::now();
             $dataBase->query('INSERT INTO urls_checks(url_id, status_code, title, h1, description, created_at) 
             VALUES(:url_id, :status, :title, :h1, :meta, :time)', $checkUrl);
-            $this->get('flash')->addMessage('warning', 'The check was completed successfully, but the server responded with an error');
+            $this->get('flash')->addMessage(
+                'warning',
+                'The check was completed successfully, but the server responded with an error'
+            );
             $url = $router->urlFor('urlsId', ['id' => $url_id]);
             return $response->withRedirect($url);
         }

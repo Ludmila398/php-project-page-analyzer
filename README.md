@@ -1,12 +1,11 @@
-## Hexlet tests and linter status
+### Hexlet tests and linter status
 [![Actions Status](https://github.com/Ludmila398/php-project-9/workflows/hexlet-check/badge.svg)](https://github.com/Ludmila398/php-project-9/actions)
-[![Linter check](https://github.com/Ludmila398/php-project-9/actions/workflows/linter-check.yml/badge.svg)](https://github.com/Ludmila398/php-project-9/actions/workflows/linter-check.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/246a453572d1635256b7/maintainability)](https://codeclimate.com/github/Ludmila398/php-project-9/maintainability)
+[![Linter check](https://github.com/Ludmila398/php-project-page-analyzer/actions/workflows/linter-check.yml/badge.svg)](https://github.com/Ludmila398/php-project-page-analyzer/actions/workflows/linter-check.yml)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f05cfe5bffc0b6c567c4/maintainability)](https://codeclimate.com/github/Ludmila398/php-project-page-analyzer/maintainability)
 
 ## Project description
 
-Page Analyzer Приложение позволяет проверить веб-сайты на SEO пригодность по аналогии с PageSpeed Insights (на наличие тегов H1, TITLE и DESCRIPTION на главной странице сайта).
-The application allows you to check websites for SEO suitability similar to PageSpeed Insights (existing H1, TITLE and DESCRIPTION tags on the main page of the site).
+The Page Analyzer application is a tool for analyzing websites' SEO suitability, similar to Google's PageSpeed Insights. It checks for the presence of essential meta tags, such as H1, TITLE, and DESCRIPTION, on the main page of a given website. This tool helps developers and SEO specialists quickly evaluate the structural readiness of a website for search engine optimization.
 
 ## Requirements
 
@@ -15,21 +14,21 @@ The application allows you to check websites for SEO suitability similar to Page
 
 ## Installation
 
-Clone the repo and enter the project folder
+Clone the repo and enter the project folder:
 ```
-git clone git@github.com:Ludmila398/php-project-9.git
+git clone git@github.com:Ludmila398/php-project-page-analyzer.git
 
-cd php-project-9
+cd php-project-page-analyzer
 ```
-Install the app
+Install dependencies using Composer.
+Ensure that `make` is installed and available on your system. The `make install` command will use Composer to install dependencies and prepare the project:
 ```
 make install
 ```
-Create a new database and import the database.sql file into the newly created database
+Create a new PostgreSQL database and import the database.sql file into the newly created database.
 
 Run the web server
 ```
 make start
 ```
 Open your browser and navigate to http://localhost:8000 to view the pages
-
