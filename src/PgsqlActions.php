@@ -5,7 +5,7 @@ namespace App;
 class PgsqlActions
 {
     /**
-     * объект PDO
+     * PDO object
      * @var \PDO
      */
     private $pdo;

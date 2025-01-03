@@ -43,7 +43,7 @@ $app->get('/', function ($request, $response) {
 
 $app->get('/urls/{id}', function ($request, $response, $args) {
     $id = $args['id'];
-    $messages = $messages = $this->get('flash')->getMessages();
+    $messages = $this->get('flash')->getMessages();
 
     $dataBase = new PgsqlActions($this->get('connection'));
     $dataFromDB = $dataBase->query('SELECT * FROM urls WHERE id = :id', $args);
