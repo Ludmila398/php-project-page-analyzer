@@ -1,4 +1,4 @@
-### Hexlet tests and linter status
+### Tests and linter status
 [![Actions Status](https://github.com/Ludmila398/php-project-9/workflows/hexlet-check/badge.svg)](https://github.com/Ludmila398/php-project-9/actions)
 [![Linter check](https://github.com/Ludmila398/php-project-page-analyzer/actions/workflows/linter-check.yml/badge.svg)](https://github.com/Ludmila398/php-project-page-analyzer/actions/workflows/linter-check.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/f05cfe5bffc0b6c567c4/maintainability)](https://codeclimate.com/github/Ludmila398/php-project-page-analyzer/maintainability)
@@ -11,6 +11,7 @@ The Page Analyzer application is a tool for analyzing websites' SEO suitability,
 
 - PHP >= 8.1
 - Composer
+- PostgreSQL
 
 ## Installation
 
